@@ -21,8 +21,21 @@
                                }
                              }
                              
-                             
-                            
+                            stage(scann-1){ 
+                             steps {
+                                    withSonarQubeEnv('sonarqubeproduction-java-analysis') {
+                                     
+                                sh  "mvn clean verify sonar:sonar \
+                                       -Dsonar.projectKey=java \
+                                       -Dsonar.host.url=http://localhost:1010 \
+                                       -Dsonar.login=java"
+                                   }}}
+
+                             stage('Test after scann'){
+                              steps {                             
+                               echo "It is ============working========================="
+                               }
+                             }
                              
                              
                              
@@ -31,7 +44,7 @@
                                 steps {
                                      withSonarQubeEnv('sonarqubeproduction-java-analysis') {
                                          sh "mvn sonar:sonar \
-                                             -Dsonar.host.url=http://localhost:1010 \
+                                             -Dsonar.host.url=http://localhost:1010/projects \
                                              -Dsonar.projectKey=java \
                                              -Dsonar.login=$credentials('sonarqube-global-Secrete-text') \
                                              -Dsonar.projectName='java' \
