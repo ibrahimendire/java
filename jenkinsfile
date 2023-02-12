@@ -21,7 +21,7 @@
                                }
                              }
                              
-                            stage(scann-1){ 
+                            stage('scann-1'){ 
                              steps {
                                     withSonarQubeEnv('sonarqubeproduction-java-analysis') {
                                      
