@@ -28,7 +28,8 @@
                                 sh  "mvn clean verify sonar:sonar \
                                        -Dsonar.projectKey=java \
                                        -Dsonar.host.url=http://localhost:1010 \
-                                       -Dsonar.login=java"
+                                       -Dsonar.login=$credentials('sonarqube-global-Secrete-text')"
+                                       
                                    }}}
 
                              stage('Test after scann'){
