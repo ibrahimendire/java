@@ -29,16 +29,17 @@
                         stage('SonarQube analysis') {
                                 
                                 steps {
-                                    withSonarQubeEnv('sonarqubeproduction-java-analysis') {
-                                        sh "mvn sonar:sonar \
-                                            -Dsonar.host.url=http://localhost:1010 \
-                                            -Dsonar.projectKey=java \
-                                            -Dsonar.login=credentials('sonarqube-global-Secrete-text') \
-                                            -Dsonar.projectName='java' \
-                                            -Dsonar.projectVersion=1.0.0 \
-                                            -Dsonar.java.binaries=target/classes/"
-                                       }
-                                   }      
+                                     withSonarQubeEnv('sonarqubeproduction-java-analysis') {
+                                         sh "mvn sonar:sonar \
+                                             -Dsonar.host.url=http://localhost:1010 \
+                                             -Dsonar.projectKey=java \
+                                             -Dsonar.login=$credentials('sonarqube-global-Secrete-text') \
+                                             -Dsonar.projectName='java' \
+                                             -Dsonar.projectVersion=1.0.0 \
+                                             -Dsonar.java.binaries=target/classes/"
+                                     }
+                                 }
+
                                  }
                               
                               
