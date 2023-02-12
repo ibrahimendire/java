@@ -22,29 +22,7 @@
                              }
                              
                              
-                             
-                             
-                               stage('SonarQube analysis 1') {
-                                   tools {
-                                       jdk "jdk9" // the name you have given the JDK installation using the JDK manager (Global Tool Configuration)
-                                   }
-                                   environment {
-                                       scannerHome = tool 'SonarQube Scanner' // the name you have given the Sonar Scanner (Global Tool Configuration)
-                                   }
-                                   steps {
-                                       withSonarQubeEnv(installationName: 'SonarQube') {
-                                           sh 'mvn sonar:sonar'
-                                       }
-                                   }
-                               } 
-                             
-                             
-                             
-                               stage('Test after sonarQube'){
-                              steps {                             
-                               echo "It looks like working========================="
-                               }
-                             }
+                            
                              
                              
                              
@@ -58,11 +36,18 @@
                                             -Dsonar.login=credentials('sonarqube-global-Secrete-text') \
                                             -Dsonar.projectName='java' \
                                             -Dsonar.projectVersion=1.0.0 \
-                                            -Dsonar.java.binaries=target/classes"
+                                            -Dsonar.java.binaries=target/classes/"
                                        }
                                    }      
                                  }
-                                 
+                              
+                              
+                              
+                               stage('Test after sonarQube'){
+                              steps {                             
+                               echo "It looks like working========================="
+                               }
+                             }    
                                  
 
                         }
