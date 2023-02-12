@@ -23,14 +23,7 @@
                              
                              
                              
-                             stage('Build 1') {
-                                tools {
-                                       jdk "jdk9" // the name you have given the JDK installation using the JDK manager (Global Tool Configuration)
-                                   }
-                                   steps {
-                                       sh 'mvn compile'
-                                   }
-                               }
+                             
                                stage('SonarQube analysis 1') {
                                    tools {
                                        jdk "jdk9" // the name you have given the JDK installation using the JDK manager (Global Tool Configuration)
