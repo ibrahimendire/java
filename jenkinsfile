@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+    
+
+    stages {
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+       
+       
+    }
+    post{
+        failure{
+            
+            
+            slackSend( channel: "#ibrahim", token: "slack-jenkins-secret-key token", color: "danger", message: "Ibrahim sorry to hear that your Build is Failed: ${env.BUILD_DISPLAY_NAME} with Build ID: (${env.BUILD_ID}) ${custom_msg()}")
+        }
+        success {
+    slackSend(channel: "#ibrahim", 
+              token: "slack-jenkins-secret-key token", 
+              color: "good", 
+              message: "Congragulation Ibrahim, Your Build is Succeeded: ${env.BUILD_DISPLAY_NAME} (${env.BUILD_ID})")
+  }
+     }
+}
