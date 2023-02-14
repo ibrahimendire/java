@@ -1,6 +1,11 @@
  pipeline {
         agent any
                         
+     environment {
+        
+        SONAR_LOGIN_TOKEN = credentials('sonarqube-global-Secrete-text')
+        SONAR_PASSWORD = credentials('sonarqube-password')
+    }
 
                         stages {
                             stage('Test') {
@@ -21,43 +26,39 @@
                                }
                              }
                              
-                            stage('scann-1'){ 
-                             steps {
-                                    withSonarQubeEnv('sonarqubeproduction-java-analysis') {
-                                     
-                                sh  "mvn clean verify sonar:sonar \
-                                       -Dsonar.projectKey=java \
-                                       -Dsonar.host.url=http://localhost:1010 \
-                                       -Dsonar.login=$credentials('sonarqube-global-Secrete-text')"
-                                       
-                                   }}}
-
-                             stage('Test after scann'){
+                             stage('SCM') {
+    checkout scm
+  }
+  stage('SonarQube Analysis') {
+    def mvn = tool 'Default Maven';
+    withSonarQubeEnv() {
+      sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=java"
+    }
+  }
+          stage('Test after scann'){
                               steps {                             
                                echo "It is ============working========================="
                                }
                              }
-                             
-                             
-                             
-                        stage('SonarQube analysis') {
-                                
-                                steps {
-                                     withSonarQubeEnv('sonarqubeproduction-java-analysis') {
-                                         sh "mvn sonar:sonar \
-                                             -Dsonar.host.url=http://localhost:1010/projects \
-                                             -Dsonar.projectKey=java \
-                                             -Dsonar.login=$credentials('sonarqube-global-Secrete-text') \
-                                             -Dsonar.projectName='java' \
-                                             -Dsonar.projectVersion=1.0.0 \
-                                             -Dsonar.java.binaries=target/classes/"
-                                     }
-                                 }
+                                                 
+                             stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('SonarScanner') {
+                    sh "mvn sonar:sonar \
+                        -Dsonar.host.url=http://localhost:1010 \
+                        -Dsonar.projectKey=java \
+                        -Dsonar.login=${SONAR_LOGIN_TOKEN} \
+                        -Dsonar.projectName='java' \
+                        -Dsonar.projectVersion=1.0.0 \
+                        -Dsonar.java.binaries=target/classes"
+                }
+            }
+        }
 
-                                 }
-                              
-                              
-                              
+                            
+                             
+                             
+        
                                stage('Test after sonarQube'){
                               steps {                             
                                echo "It looks like working========================="
