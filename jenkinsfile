@@ -30,7 +30,7 @@
                          
                              stage('SonarQube analysis') {
                                steps {
-                                   withSonarQubeEnv('sonarqubeproduction-java-analysis') {
+                                   withSonarQubeEnv('SonarQube Scanner') {
                                        sh "mvn sonar:sonar \
                                            -Dsonar.host.url=http://localhost:1010 \
                                            -Dsonar.projectKey=java \
