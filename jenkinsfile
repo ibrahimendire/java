@@ -27,31 +27,20 @@
                              }
                              
                              
-                                         stage('SonarQube Analysis') {
-                                           def mvn = tool 'Default Maven';
-                                           withSonarQubeEnv() {
-                                             sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=java"
-                                           }
-                                         }
-          stage('Test after scann'){
-                              steps {                             
-                               echo "It is ============working========================="
-                               }
-                             }
-                                                 
+                         
                              stage('SonarQube analysis') {
-            steps {
-                withSonarQubeEnv('SonarScanner') {
-                    sh "mvn sonar:sonar \
-                        -Dsonar.host.url=http://localhost:1010 \
-                        -Dsonar.projectKey=java \
-                        -Dsonar.login=${SONAR_LOGIN_TOKEN} \
-                        -Dsonar.projectName='java' \
-                        -Dsonar.projectVersion=1.0.0 \
-                        -Dsonar.java.binaries=target/classes"
-                }
-            }
-        }
+                               steps {
+                                   withSonarQubeEnv('SonarScanner') {
+                                       sh "mvn sonar:sonar \
+                                           -Dsonar.host.url=http://localhost:1010 \
+                                           -Dsonar.projectKey=java \
+                                           -Dsonar.login=${SONAR_LOGIN_TOKEN} \
+                                           -Dsonar.projectName='java' \
+                                           -Dsonar.projectVersion=1.0.0 \
+                                           -Dsonar.java.binaries=target/classes"
+                                   }
+                               }
+                           }
 
                             
                              
