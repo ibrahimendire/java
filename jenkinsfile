@@ -27,13 +27,16 @@
                              }
                              stage('from sq'){
                              steps{
-                             mvn clean verify sonar:sonar \
+                              withSonarQubeEnv('sonarqubeproduction-java-analysis') {
+                                    
+                             
+                          sh   "mvn clean verify sonar:sonar \
   -Dsonar.projectKey=java \
   -Dsonar.host.url=http://localhost:1010 \
-  -Dsonar.login=sqp_d0a6ebf708caad807e0287de0592866ba318bb4e
+  -Dsonar.login=sqp_d0a6ebf708caad807e0287de0592866ba318bb4e"
                              }
                              }
-                             
+                            } 
                          
                              stage('SonarQube analysis') {
                                steps {
