@@ -23,20 +23,13 @@
                          stage('Test before sonarqube analysis'){
                               steps {                             
                                echo "It is working========================="
-                               }
-                             }
-                             stage('from sq'){
-                             steps{
-                              withSonarQubeEnv('sonarqubeproduction-java-analysis') {
-                                    
-                             
-                          sh   "mvn clean verify sonar:sonar \
+                               sh   "mvn clean verify sonar:sonar \
   -Dsonar.projectKey=java \
   -Dsonar.host.url=http://localhost:1010 \
   -Dsonar.login=sqp_d0a6ebf708caad807e0287de0592866ba318bb4e"
+                               }
                              }
-                             }
-                            } 
+                            
                          
                              stage('SonarQube analysis') {
                                steps {
